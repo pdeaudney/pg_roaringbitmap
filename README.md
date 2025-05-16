@@ -455,6 +455,14 @@ or
 2
 3</pre></td>
     </tr>
+    <tr>
+        <td><code>rb_run_optimize</code></td>
+        <td><code>roaringbitmap</code></td>
+        <td><code>roaringbitmap</code></td>
+        <td>Return a run optimized roaringbitmap data.</td>
+        <td><pre>rb_run_optimize(roaringbitmap('{1,2,3}'))</pre></td>
+        <td><pre>\x3b3000000100000200010001000200</pre></td>
+    </tr>
 </table>
 
 ## Aggregation List
