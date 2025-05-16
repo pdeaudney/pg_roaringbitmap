@@ -2063,3 +2063,35 @@ rb_cardinality_final(PG_FUNCTION_ARGS) {
         PG_RETURN_INT64(card1);
     }
 }
+
+//bitmap Run optimize
+PG_FUNCTION_INFO_V1(rb_run_optimize);
+Datum rb_run_optimize(PG_FUNCTION_ARGS);
+
+Datum
+rb_run_optimize(PG_FUNCTION_ARGS) {
+    bytea *input = PG_GETARG_BYTEA_P(0);
+    roaring_bitmap_t *r1;
+    size_t out_size;
+    bytea *result;
+
+    // Deserialize into CRoaring bitmap
+    r1 = roaring_bitmap_portable_deserialize((const char *) VARDATA(input));
+    if (r1 == NULL)
+        elog(ERROR, "Failed to deserialize Roaring bitmap");
+
+    // Optimize containers (convert to run containers when beneficial)
+    roaring_bitmap_run_optimize(r1);
+
+    // Serialize back to bytea
+    out_size = roaring_bitmap_portable_size_in_bytes(r1);
+    result = (bytea *) palloc(out_size + VARHDRSZ);
+    SET_VARSIZE(result, out_size + VARHDRSZ);
+    roaring_bitmap_portable_serialize(r1, VARDATA(result));
+
+    // Free bitmap memory
+    roaring_bitmap_free(r1);
+
+    // Return roaringbitmap
+    PG_RETURN_BYTEA_P(result);
+}

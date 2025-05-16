@@ -610,3 +610,6 @@ order by id limit 10;
 -- bugfix #22
 SELECT '{100373,1829130,1861002,1975442,2353213,2456403}'::roaringbitmap & '{2353213}'::roaringbitmap;
 SELECT rb_and_cardinality('{100373,1829130,1861002,1975442,2353213,2456403}','{2353213}');
+
+-- rb_run_optimize
+SELECT rb_run_optimize(roaringbitmap('{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25}'));
