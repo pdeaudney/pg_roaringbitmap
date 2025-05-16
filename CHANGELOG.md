@@ -1,6 +1,9 @@
 
 # Change Log
 
+### v0.7.0(2025-05-16)
+- Add rb_run_optimize to support run optimization
+
 ### v0.6.0(2025-05-11)
 - Update CRoaring to v4.1.3
 
